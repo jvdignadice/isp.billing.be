@@ -1,8 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+/// <reference types="jest" />
 
-describe('AppController', () => {
+import { Test, TestingModule } from "@nestjs/testing";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+
+describe("AppController", () => {
   let appController: AppController;
 
   beforeEach(async () => {
@@ -14,12 +16,15 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('health', () => {
-    it('should return the service status', () => {
-      expect(appController.getHealth()).toMatchObject({
-        service: 'isp.billing.be',
-        status: 'ok',
+  describe("health", () => {
+    it("should return the service status", () => {
+      const response = appController.getHealth();
+
+      expect(response).toMatchObject({
+        service: "isp.billing.be",
+        status: "ok",
       });
+      expect(Number.isNaN(Date.parse(response.timestamp))).toBe(false);
     });
   });
 });
